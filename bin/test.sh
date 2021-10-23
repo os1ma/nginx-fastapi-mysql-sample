@@ -9,7 +9,7 @@ readonly SCRIPT_DIR="$(cd "$(dirname "$0")"; pwd)"
 readonly PROJECT_HOME="${SCRIPT_DIR}/.."
 
 readonly MAX_RETRY=30
-readonly TARGET='localhost:8080/api/posts'
+readonly TARGET='localhost:8000/api/posts'
 
 cd "${PROJECT_HOME}"
 docker-compose down
