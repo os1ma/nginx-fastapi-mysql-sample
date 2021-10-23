@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>掲示板</title>
 </head>
 <body>
   <h1>掲示板</h1>
-  <input id="input-text" type="text">
+  <input id="input-text" type="text" />
   <button id="submit-button">投稿する</button>
   <h2>過去の投稿</h2>
   <table>
@@ -15,16 +15,7 @@
         <td>投稿時刻</td>
       </tr>
     </thead>
-    <tbody id="posts-table-body">
-      <tr>
-        <td>こんにちは</td>
-        <td>2021年9月1日21:00:00</td>
-      </tr>
-      <tr>
-        <td>こんばんは</td>
-        <td>2021年9月1日21:02:00</td>
-      </tr>
-    </tbody>
+    <tbody id="posts-table-body"></tbody>
   </table>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="main.js"></script>

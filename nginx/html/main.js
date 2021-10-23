@@ -1,23 +1,50 @@
 function escapeHTML(str) {
-  return str.replace(/&/g, '&amp;')
+  return str
+    .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;')
 }
 
-async function getPosts() {
+async function reloadPosts() {
+  const tableBody = document.querySelector('#posts-table-body')
+
   response = await axios.get('/api/posts')
-  return response.data.posts
+  const posts = response.data.posts
+
+  while (tableBody.firstChild) {
+    tableBody.removeChild(tableBody.firstChild)
+  }
+
+  posts.forEach((p) => {
+    const tr = document.createElement('tr')
+
+    const tdMessage = document.createElement('td')
+    tdMessage.textContent = escapeHTML(p.message)
+    tr.appendChild(tdMessage)
+    const tdCreatedAt = document.createElement('td')
+    tdCreatedAt.textContent = escapeHTML(p.createdAt)
+    tr.appendChild(tdCreatedAt)
+
+    tableBody.appendChild(tr)
+  })
 }
 
-async function reloadPostsTableBody() {
-  const posts = await getPosts()
-  const innerHTML = posts.map(p => `<tr><td>${escapeHTML(p.message)}</td><td>${escapeHTML(p.createdAt)}</td></tr>`)
-    .reduce((l, r) => l + r)
+async function registerPost() {
+  const message = document.querySelector('#input-text').value
 
-  const tableBody = document.getElementById("posts-table-body")
-  tableBody.innerHTML = innerHTML
+  if (!message) {
+    return
+  }
+
+  await axios.post('/api/posts', {
+    message
+  })
+
+  await reloadPosts()
 }
 
-reloadPostsTableBody()
+document.querySelector('#submit-button').addEventListener('click', registerPost)
+
+reloadPosts()
