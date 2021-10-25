@@ -25,3 +25,4 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
     volumes:
       - ${PWD}/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ${PWD}/mysql/conf.d/charset.cnf:/etc/mysql/conf.d/charset.cnf
