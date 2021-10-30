@@ -20,7 +20,18 @@ set -o xtrace
 
 sudo apt-get update
 
-# Nginx
+# MySQL
+sudo apt-get install -y mysql-server
+
+# MySQL client
+sudo apt-get install -y libmariadb-dev
+pip install mysqlclient
+
+# Uvicorn + FastAPI
+sudo apt-get install -y pip
+pip install fastapi uvicorn
+
+# nginx
 sudo apt-get install -y nginx
 sudo rm -f /etc/nginx/conf.d/*
 sudo rm -f /etc/nginx/sites-enabled/*
@@ -28,14 +39,3 @@ sudo cp "${PROJECT_HOME}/nginx/conf.d/server.conf" /etc/nginx/conf.d/
 sudo sed -i 's/api/localhost/g' /etc/nginx/conf.d/server.conf
 sudo rsync -ahv "${PROJECT_HOME}/nginx/html/" /usr/share/nginx/html
 sudo systemctl reload nginx
-
-# Uvicorn + FastAPI
-sudo apt-get install -y pip
-pip install fastapi uvicorn
-
-# MySQL
-sudo apt-get install -y mysql-server
-
-# MySQL client
-sudo apt-get install -y libmariadb-dev
-pip install mysqlclient
