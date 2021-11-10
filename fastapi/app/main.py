@@ -1,3 +1,5 @@
+import os
+
 import MySQLdb
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
@@ -5,18 +7,19 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+mysql_host = os.environ.get('MYSQL_HOST', 'localhost')
 
-@app.get("/api/posts")
+@app.get('/api/posts')
 async def list_posts():
     con = MySQLdb.connect(
+        host=mysql_host,
+        db='app',
         user='app',
         passwd='password',
-        host='db',
-        db='app',
-        charset="utf8")
+        charset='utf8')
 
     cur= con.cursor()
-    sql = "select id, message, created_at from posts order by id"
+    sql = 'select id, message, created_at from posts order by id'
     cur.execute(sql)
     rows = cur.fetchall()
 
@@ -32,22 +35,22 @@ async def list_posts():
     cur.close()
     con.close()
 
-    return {"posts": posts}
+    return {'posts': posts}
 
 class PostPostRequestBody(BaseModel):
     message: str
 
-@app.post("/api/posts")
+@app.post('/api/posts')
 async def post_posts(body: PostPostRequestBody):
     con = MySQLdb.connect(
+        host=mysql_host,
+        db='app',
         user='app',
         passwd='password',
-        host='db',
-        db='app',
-        charset="utf8")
+        charset='utf8')
 
     cur= con.cursor()
-    sql = "insert into posts (message) values (%s)"
+    sql = 'insert into posts (message) values (%s)'
     cur.execute(sql, (body.message,))
     cur.close()
 
