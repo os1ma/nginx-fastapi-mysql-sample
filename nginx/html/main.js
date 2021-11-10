@@ -10,7 +10,8 @@ function escapeHTML(str) {
 async function reloadPosts() {
   const tableBody = document.querySelector('#posts-table-body')
 
-  response = await axios.get('/api/posts')
+  const response = await axios.get('/api/posts')
+  console.log(response)
   const posts = response.data.posts
 
   while (tableBody.firstChild) {
